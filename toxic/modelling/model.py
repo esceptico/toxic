@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-from toxic.modelling.nn import Conv1dMaxPooling
+from toxic.modelling.nn import Conv1dMaxPooling, Highway
 
 
 class WideCNNEmbedder(nn.Module):
@@ -21,20 +21,24 @@ class WideCNNEmbedder(nn.Module):
                 kernel_size=width
             ) for width, out_size in filters
         ])
-        projection_input_size = sum(out_size for _, out_size in filters)
-        self.projection = nn.Linear(projection_input_size, projection_size)
+        # projection_input_size = sum(out_size for _, out_size in filters)
+        # self.highway = Highway(projection_input_size)
+        # self.projection = nn.Linear(projection_input_size, projection_size)
+        self.output_size = sum(out_size for _, out_size in filters)
 
     def forward(self, inputs):
-        token_embedding = self.token_embeddings(inputs)     # (batch_size, seq_len, embedding_size)
+        token_embedding = self.token_embedding(inputs)     # (batch_size, seq_len, embedding_size)
         token_embedding = token_embedding.transpose(1, 2)  # (batch_size, embedding_size, seq_len)
         convolutions = [conv(token_embedding) for conv in self.convolutions]
         convolutions = torch.cat(convolutions, dim=-1)
-        return self.projection(convolutions)
+        # highway = self.highway(convolutions)
+        # return self.projection(highway)
+        return convolutions
 
 
 class Model(nn.Module):
     def __init__(self, token_emb_size=32, vocab_size=1024, filters=((1, 64), (2, 128)),
-                 projection_size=256, n_classes=4):
+                 dropout=0.5, projection_size=256, n_classes=4):
         super().__init__()
         self.embedding = WideCNNEmbedder(
             token_embedding_size=token_emb_size,
@@ -43,6 +47,10 @@ class Model(nn.Module):
             projection_size=projection_size
         )
         self.head = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(self.embedding.output_size, projection_size),
+            nn.ReLU(),
+            nn.Dropout(dropout),
             nn.Linear(projection_size, n_classes)
         )
 
