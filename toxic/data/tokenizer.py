@@ -51,6 +51,15 @@ class SentencePieceBPETokenizer:
     def vocab_size(self):
         return self.tokenizer.get_vocab_size()
 
+    def serialize(self):
+        return self.tokenizer.to_str()
+
+    @classmethod
+    def deserialize(cls, s: str) -> 'SentencePieceBPETokenizer':
+        tokenizer = cls()
+        tokenizer.tokenizer = Tokenizer.from_str(s)
+        return tokenizer
+
     def encode_batch(self, batch: List[str]):
         return torch.tensor([
             e.ids for e in self.tokenizer.encode_batch(batch)

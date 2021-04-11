@@ -4,30 +4,6 @@ import torch
 from torch import nn
 
 
-class Conv1dMaxPooling(nn.Module):
-    """Conv1d -> MaxPooling1d -> Activation"""
-    def __init__(
-        self,
-        in_channels,
-        out_channels,
-        kernel_size,
-        activation=torch.relu
-    ):
-        super().__init__()
-        self.conv = nn.Conv1d(
-            in_channels=in_channels,
-            out_channels=out_channels,
-            kernel_size=kernel_size,
-            padding=kernel_size
-        )
-        self.activation = activation
-
-    def forward(self, inputs):
-        out = self.conv(inputs)
-        out, _ = torch.max(out, dim=-1)
-        return self.activation(out)
-
-
 class Highway(nn.Module):
     """
     Highway Networks
@@ -69,12 +45,3 @@ class Highway(nn.Module):
             gate = torch.sigmoid(gate)
             current_input = gate * nonlinear + (1 - gate) * linear
         return current_input
-
-
-class MeanPooling(nn.Module):
-    def forward(self, inputs, mask=None):
-        if mask is None:
-            return inputs.mean(1)
-        masked_inputs = inputs * mask.unsqueeze(-1)
-        pooled = masked_inputs.sum(1) / mask.sum(-1).unsqueeze(-1)
-        return pooled

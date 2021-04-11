@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 import torch
 from torch.utils.data.dataset import Dataset as TorchDataset
 
@@ -9,9 +7,7 @@ def read_dataset(path):
     with open(path) as file:
         for line in file:
             sep = line.index(' ')
-            text, labels = line[sep + 1:], line[:sep]
-            # labels = line.split()[0]
-            # text = line[len(labels) + 1:].strip()
+            text, labels = line[sep + 1:].strip(), line[:sep]
             labels = labels.split(",")
             data_list.append({
                 'text': text,
@@ -55,8 +51,3 @@ def collate_fn(tokenizer):
         text = tokenizer.encode_batch(data)
         return {'text': text, 'target': torch.tensor(target, dtype=torch.float)}
     return inner
-
-
-if __name__ == '__main__':
-    dataset = read_dataset('/home/enio/PycharmProjects/toxic/data/dataset.txt')
-    print(*dataset[:10], sep='\n')
