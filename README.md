@@ -16,6 +16,7 @@ from src.toxic.inference import Toxic
 model = Toxic.from_checkpoint('path_to_model')
 model.infer('привет, придурок')
 ```
+
 Result:
 ```
 {
@@ -35,6 +36,17 @@ Result:
 }
 ```
 
+### Pretrained model
+
+Also, we provide pretrained model at release page
+
+To download the model execute:
+```
+wget https://github.com/esceptico/toxic/releases/download/v0.1.0/model.pth.zip
+unzip model.pth.zip
+```
+
+
 ## Serving
 ### Streamlit
 ```
@@ -48,3 +60,8 @@ streamlit run ui/app.py -- --model=models/model.pth
 * [tokenizers](https://github.com/huggingface/tokenizers)
 * [torchmetrics](https://github.com/PyTorchLightning/metrics) 
 * [streamlit](https://github.com/streamlit/streamlit)
+
+## License
+The code is released under MIT license.
+
+The models are distributed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) according to the dataset license.
