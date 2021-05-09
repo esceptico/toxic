@@ -40,8 +40,8 @@ streamlit run ui/app.py -- --model=models/model.pth
 ```
 
 ## Powered By
-* [captum]()
-* [hydra]()
-* [tokenizers]()
-* [torchmetrics]() 
-* [streamlit]()
+* [captum](https://github.com/pytorch/captum)
+* [hydra](https://github.com/facebookresearch/hydra)
+* [tokenizers](https://github.com/huggingface/tokenizers)
+* [torchmetrics](https://github.com/PyTorchLightning/metrics) 
+* [streamlit](https://github.com/streamlit/streamlit)
