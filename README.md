@@ -1,6 +1,8 @@
 # Toxic Comment Classification
-Fullstack end-to-end lightweight toxic comment classification with result interpretation
+Fullstack end-to-end toxic comment classification with result interpretation
 
+## Data
+The dataset is available at [kaggle](https://www.kaggle.com/alexandersemiletov/toxic-russian-comments) and contains labelled comments from the popular Russian social network ok.ru
 
 ## Train
 ```
