@@ -19,7 +19,7 @@ DESCRIPTION = (
     '<a href="https://github.com/esceptico/toxic">GitHub</a>'
     '</p>'
 )
-DEFAULT_TEXT = 'сука! гореть ему в аду!'
+DEFAULT_TEXT = 'вот урод, гореть ему в аду!'
 
 
 def highlight(
