@@ -1,0 +1,11 @@
+# @package _global_
+data:
+  data_path: data/dataset.txt
+  num_workers: 0
+  batch_size: 512
+  vocab_size: 10000
+  bpe_dropout: 0.1
+  labels:
+    - insult
+    - threat
+    - obscenity

@@ -1,0 +1,4 @@
+defaults:
+  - data: data
+  - model: model
+  - trainer: trainer

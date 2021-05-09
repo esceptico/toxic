@@ -1,0 +1,12 @@
+# @package _global_
+model:
+  encoder:
+    token_embedding_size: 64
+    vocab_size: ${data.vocab_size}
+    filters: [[1, 128], [2, 128], [3, 128]]
+    dropout: 0.2
+    projection_size: 256
+  classifier:
+    embedding_size: ${model.encoder.projection_size}
+    dropout: 0.4
+    hidden_size: 128

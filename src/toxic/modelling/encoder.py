@@ -3,11 +3,16 @@ from typing import Sequence, Tuple
 import torch
 from torch import nn
 
-from toxic.modelling.modules import Conv1dMaxPooling
-from toxic.modelling.encoders.base import SentenceEncoder
+from src.toxic.modelling.modules import Conv1dMaxPooling
 
 
-class WideCNNEncoder(SentenceEncoder):
+class WideCNNEncoder(nn.Module):
+    """Convolutional sentence encoder
+
+    References:
+        Convolutional Neural Networks for Sentence Classification
+        https://arxiv.org/abs/1408.5882
+    """
     def __init__(
         self,
         token_embedding_size: int = 32,
@@ -16,7 +21,18 @@ class WideCNNEncoder(SentenceEncoder):
         dropout: float = 0.2,
         projection_size: int = 256
     ):
-        super().__init__(embedding_size=projection_size)
+        """Constructor
+
+        Args:
+            token_embedding_size (int): Size of token embedding.
+                Defaults to `32`.
+            vocab_size (int): Number of token dictionary. Defaults to `256`.
+            filters (Sequence[Tuple[int, int]]): Sequence of
+                [kernel_size, out_channels] tuples.
+            dropout (float): Dropout value.
+            projection_size (int): Size of output layer size. Defaults to `256`
+        """
+        super().__init__()
         self.projection_size = projection_size
         self.token_embedding = nn.Embedding(
             vocab_size, token_embedding_size, padding_idx=0

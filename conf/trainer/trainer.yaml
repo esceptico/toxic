@@ -1,0 +1,8 @@
+# @package _global_
+trainer:
+  device: cuda
+  learning_rate: 0.0005
+  seed: 0xDEAD
+  n_epoch: 15
+  save_path: /home/enio/PycharmProjects/toxic/models/model.pth
+  val_size: 0.2

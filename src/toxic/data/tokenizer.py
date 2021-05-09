@@ -1,4 +1,4 @@
-from typing import List, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import torch
 from tokenizers.models import BPE
@@ -6,17 +6,28 @@ from tokenizers.normalizers import BertNormalizer
 from tokenizers import pre_tokenizers, decoders, trainers, Tokenizer
 
 
+# TODO: docstring
 class SentencePieceBPETokenizer:
+    """Custom SentencePiece tokenizer"""
     unk_token = '<unk>'
     pad_token = '<pad>'
 
     def __init__(
         self,
-        vocab=None,
-        merges=None,
+        vocab: Dict[str, int] = None,
+        merges: List[Tuple[str, str]] = None,
         dropout: float = None,
         max_length: Optional[int] = 64
     ) -> None:
+        """Constructor
+
+        Args:
+            vocab (Dict[str, int]): A dictionary of string keys and their ids.
+            merges (List[Tuple[str, str]]): A list of pairs of tokens.
+            dropout (float): BPE dropout
+            max_length (int, optional): The max length at which to truncate.
+                Defaults to `64`.
+        """
         self.tokenizer = Tokenizer(BPE(
             vocab, merges, dropout=dropout, unk_token=self.unk_token
         ))
@@ -44,12 +55,12 @@ class SentencePieceBPETokenizer:
             special_tokens=[cls.pad_token, cls.unk_token]
         )
         instance.tokenizer.train_from_iterator(dataset, trainer=trainer)
-        instance.tokenizer.model.dropout = 0.0
+        instance.tokenizer.model.dropout = None
         return instance
 
     @property
     def vocab_size(self):
-        return self.tokenizer.get_vocab_size()
+        return len(self.tokenizer.get_vocab())
 
     def serialize(self):
         return self.tokenizer.to_str()
@@ -60,7 +71,20 @@ class SentencePieceBPETokenizer:
         tokenizer.tokenizer = Tokenizer.from_str(s)
         return tokenizer
 
+    def encode(self, text: str) -> Dict[str, Any]:
+        encoding = self.tokenizer.encode(text)
+        outputs = {
+            'ids': torch.tensor(encoding.ids),
+            'mask': torch.tensor(encoding.attention_mask),
+            'spans': encoding.offsets,
+        }
+        return outputs
+
     def encode_batch(self, batch: List[str]):
-        return torch.tensor([
-            e.ids for e in self.tokenizer.encode_batch(batch)
-        ])
+        encodings = self.tokenizer.encode_batch(batch)
+        outputs = {
+            'ids': torch.tensor([e.ids for e in encodings]),
+            'mask': torch.tensor([e.attention_mask for e in encodings]),
+            'spans': [e.offsets for e in encodings],
+        }
+        return outputs
