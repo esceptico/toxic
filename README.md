@@ -38,6 +38,7 @@ Result:
 ```
 streamlit run ui/app.py -- --model=models/model.pth
 ```
+![Example](docs/images/ui.png)
 
 ## Powered By
 * [captum](https://github.com/pytorch/captum)
