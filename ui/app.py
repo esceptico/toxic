@@ -19,12 +19,7 @@ DESCRIPTION = (
     '<a href="https://github.com/esceptico/toxic">GitHub</a>'
     '</p>'
 )
-DEFAULT_TEXT = """Ублюдок, мать твою, а ну иди сюда, говно собачье, 
-решил ко мне лезть? Ты, засранец вонючий, мать твою, а? Ну иди сюда, 
-попробуй меня трахнуть, я тебя сам трахну, ублюдок, онанист чертов, 
-будь ты проклят, иди идиот, трахать тебя и всю семью, говно собачье, 
-жлоб вонючий, дерьмо, падла, иди сюда, мерзавец, негодяй, гад, иди 
-сюда, ты — говно, жопа!"""
+DEFAULT_TEXT = 'сука! гореть ему в аду!'
 
 
 def highlight(
@@ -134,8 +129,14 @@ def body(predict, settings):
         exp.json(result)
 
 
+def parse_args():
+    parser = ArgumentParser()
+    parser.add_argument('-m', '--model', help='Path to model')
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
-    model_path = Path(__file__).parent.parent.joinpath('models/model.pth')
-    model = Toxic.from_checkpoint(path=model_path)
+    args = parse_args()
+    model = Toxic.from_checkpoint(path=args.model)
     s = sidebar()
     body(model.infer, s)
