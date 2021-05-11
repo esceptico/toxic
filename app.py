@@ -19,7 +19,6 @@ DESCRIPTION = (
     '<a href="https://github.com/esceptico/toxic">GitHub</a>'
     '</p>'
 )
-DEFAULT_TEXT = 'вот урод, гореть ему в аду!'
 
 
 def highlight(
@@ -100,7 +99,7 @@ def plotly_bar_chart(
 
 
 def body(predict, settings):
-    text = st.text_input('Text input', value=DEFAULT_TEXT)
+    text = st.text_input('Text input')
     if text:
         result = predict(text)
         bar = plotly_bar_chart(
