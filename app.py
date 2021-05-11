@@ -137,7 +137,10 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    model = Toxic.from_checkpoint(path=args.model)
+    path = args.model
+    if args.model is None:
+        path = 'models/model.pth'
+    model = Toxic.from_checkpoint(path=path)
 
     st.set_page_config(page_title='toxic', layout='wide', page_icon='🤬')
     settings = sidebar()
