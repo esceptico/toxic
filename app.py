@@ -1,5 +1,3 @@
-from argparse import ArgumentParser
-from pathlib import Path
 from typing import List, Tuple
 
 from plotly import graph_objects as go
