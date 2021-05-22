@@ -14,7 +14,7 @@ python run_training.py
 ```python
 from src.toxic.inference import Toxic
 
-model = Toxic.from_checkpoint('path_to_model')
+model = Toxic.from_checkpoint('path_to_model_or_name')
 model.infer('привет, придурок')
 ```
 
@@ -39,13 +39,21 @@ Result:
 
 ### Pretrained model
 
-Also, we provide pretrained model at release page
+We provide pretrained model at release page
 
 To download the model execute:
 ```
 wget https://github.com/esceptico/toxic/releases/download/v0.1.0/model.pth.zip
 unzip model.pth.zip
 ```
+
+You can download and cache pretrained model by model name as well:
+```python
+model = Toxic.from_checkpoint('cnn')
+```
+
+**List of supported pretrained models**:
+* `cnn`: Wide CNN encoder with Feed Forward classification head
 
 
 ## Serving

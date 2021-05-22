@@ -6,6 +6,15 @@ from captum.attr import LayerIntegratedGradients
 
 
 def reduce_embedding_attributions(attributions: torch.Tensor) -> torch.Tensor:
+    """Reduces attributions of embedding weights to token level
+
+    Args:
+        attributions (torch.Tensor): Embeddings layer attributions
+            (from `LayerIntegratedGradients.attribute` method)
+
+    Returns:
+        torch.Tensor: Token-wise attributions
+    """
     outputs = attributions.sum(dim=2).squeeze(0)
     outputs = outputs / torch.norm(outputs)
     outputs = outputs.cpu().detach()

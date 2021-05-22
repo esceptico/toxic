@@ -30,7 +30,7 @@ class WideCNNEncoder(nn.Module):
             filters (Sequence[Tuple[int, int]]): Sequence of
                 [kernel_size, out_channels] tuples.
             dropout (float): Dropout value.
-            projection_size (int): Size of output layer size. Defaults to `256`
+            projection_size (int): Output layer size. Defaults to `256`
         """
         super().__init__()
         self.projection_size = projection_size
