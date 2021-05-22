@@ -137,7 +137,8 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    model = Toxic.from_checkpoint(path=args.model)
+    name_or_path = args.model if args.model is not None else 'cnn'
+    model = Toxic.from_checkpoint(name_or_path=name_or_path)
 
     st.set_page_config(page_title='toxic', layout='wide', page_icon='🤬')
     settings = sidebar()
