@@ -128,19 +128,8 @@ def body(predict, settings):
         exp.json(result)
 
 
-def parse_args():
-    parser = ArgumentParser()
-    parser.add_argument('-m', '--model', help='Path to model')
-    return parser.parse_args()
-
-
 if __name__ == '__main__':
-    args = parse_args()
-    path = args.model
-    if args.model is None:
-        path = 'models/model.pth'
-    model = Toxic.from_checkpoint(path=path)
-
+    model = Toxic.from_checkpoint('cnn')
     st.set_page_config(page_title='toxic', layout='wide', page_icon='🤬')
     settings = sidebar()
     body(model.infer, settings)
