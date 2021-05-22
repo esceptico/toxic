@@ -1,7 +1,7 @@
 # Toxic Comment Classification
 Fullstack end-to-end toxic comment classification with result interpretation
 
-You can visit the online demo on [this](https://share.streamlit.io/esceptico/toxic/ui/app.py) page
+You can visit the online demo on [this](https://share.streamlit.io/esceptico/toxic/app.py) page
 ## Data
 The dataset is available at [kaggle](https://www.kaggle.com/alexandersemiletov/toxic-russian-comments) and contains labelled comments from the popular Russian social network ok.ru
 
