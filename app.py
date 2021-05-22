@@ -1,5 +1,3 @@
-from argparse import ArgumentParser
-from pathlib import Path
 from typing import List, Tuple
 
 from plotly import graph_objects as go
@@ -19,7 +17,6 @@ DESCRIPTION = (
     '<a href="https://github.com/esceptico/toxic">GitHub</a>'
     '</p>'
 )
-DEFAULT_TEXT = 'вот урод, гореть ему в аду!'
 
 
 def highlight(
@@ -100,7 +97,7 @@ def plotly_bar_chart(
 
 
 def body(predict, settings):
-    text = st.text_input('Text input', value=DEFAULT_TEXT)
+    text = st.text_input('Text input')
     if text:
         result = predict(text)
         bar = plotly_bar_chart(
@@ -129,17 +126,8 @@ def body(predict, settings):
         exp.json(result)
 
 
-def parse_args():
-    parser = ArgumentParser()
-    parser.add_argument('-m', '--model', help='Path to model')
-    return parser.parse_args()
-
-
 if __name__ == '__main__':
-    args = parse_args()
-    name_or_path = args.model if args.model is not None else 'cnn'
-    model = Toxic.from_checkpoint(name_or_path=name_or_path)
-
+    model = Toxic.from_checkpoint('cnn')
     st.set_page_config(page_title='toxic', layout='wide', page_icon='🤬')
     settings = sidebar()
     body(model.infer, settings)
