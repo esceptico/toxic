@@ -3,6 +3,7 @@ from typing import List, Union
 
 import torch
 
+from src.toxic.caching import load_pretrained
 from src.toxic.data.tokenizer import SentencePieceBPETokenizer
 from src.toxic.interpretation import lig_explain
 from src.toxic.modelling.model import Model
@@ -22,16 +23,21 @@ class Toxic:
         self.labels = labels
 
     @classmethod
-    def from_checkpoint(cls, path: Union[str, Path]) -> 'Toxic':
+    def from_checkpoint(cls, name_or_path: Union[str, Path]) -> 'Toxic':
         """Loads pretrained model from checkpoint
 
         Args:
-            path (str): Path to checkpoint.
+            name_or_path (str): Path or name or url to checkpoint.
 
         Returns:
             Toxic: Loaded model.
         """
-        data = torch.load(path, map_location='cpu')
+        path = Path(name_or_path)
+        if path.exists():
+            file = path
+        else:
+            file = load_pretrained(name_or_path)
+        data = torch.load(file, map_location='cpu')
         tokenizer = SentencePieceBPETokenizer.deserialize(data['tokenizer'])
         tokenizer.tokenizer.no_truncation()
         model = Model(data['config']).eval()
