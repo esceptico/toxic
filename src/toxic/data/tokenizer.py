@@ -6,6 +6,12 @@ from tokenizers.normalizers import BertNormalizer
 from tokenizers import pre_tokenizers, decoders, trainers, Tokenizer
 
 
+import logging
+
+
+logger = logging.getLogger(__name__)
+
+
 # TODO: docstring
 class SentencePieceBPETokenizer:
     """Custom SentencePiece tokenizer"""
@@ -78,6 +84,7 @@ class SentencePieceBPETokenizer:
             'mask': torch.tensor(encoding.attention_mask),
             'spans': encoding.offsets,
         }
+        logger.warning(encoding.tokens)
         return outputs
 
     def encode_batch(self, batch: List[str]):
