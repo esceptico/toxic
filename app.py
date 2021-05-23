@@ -1,3 +1,4 @@
+import html
 from typing import List, Tuple
 
 from plotly import graph_objects as go
@@ -30,7 +31,7 @@ def highlight(
     colored_text = text
     shift = 0
     for i, ((start, end), weight) in enumerate(zip(spans, weights)):
-        token = text[start:end]
+        token = html.escape(text[start:end])
         color = positive_color if weight > 0 else negative_color
         alpha = int(abs(weight) * brightness * 255)
         color = f'{color}{alpha:x}'
