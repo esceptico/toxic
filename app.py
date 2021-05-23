@@ -1,4 +1,5 @@
 import html
+import logging
 from typing import List, Tuple
 
 from plotly import graph_objects as go
@@ -18,6 +19,7 @@ DESCRIPTION = (
     '<a href="https://github.com/esceptico/toxic">GitHub</a>'
     '</p>'
 )
+logger = logging.getLogger(__name__)
 
 
 def highlight(
@@ -28,10 +30,12 @@ def highlight(
     positive_color: str = POSITIVE_COLOR,
     negative_color: str = NEGATIVE_COLOR
 ):
+    logger.warning(text)
     colored_text = text
     shift = 0
     for i, ((start, end), weight) in enumerate(zip(spans, weights)):
         token = html.escape(text[start:end])
+        logger.warning(token)
         color = positive_color if weight > 0 else negative_color
         alpha = int(abs(weight) * brightness * 255)
         color = f'{color}{alpha:x}'
