@@ -2,7 +2,7 @@ captum==0.2.0
 hydra-core==1.0.6
 omegaconf==2.0.6
 plotly~=4.14.1
-streamlit~=0.81.1
+streamlit>=1.8.1
 tokenizers==0.10.2
 torch==1.8.0
 torchmetrics==0.2.0
