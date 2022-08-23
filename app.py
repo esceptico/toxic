@@ -43,7 +43,7 @@ def highlight(
 
 
 def settings_panel(layout):
-    settings_layout = layout.beta_expander('Settings')
+    settings_layout = layout.expander('Settings')
     threshold = settings_layout.slider(
         label='Classification threshold',
         min_value=0., max_value=1.,
@@ -54,7 +54,7 @@ def settings_panel(layout):
         min_value=0., max_value=1.,
         step=0.01, value=1.
     )
-    col1, col2 = settings_layout.beta_columns(2)
+    col1, col2 = settings_layout.columns(2)
     positive_color = col1.color_picker('Positive color', POSITIVE_COLOR)
     negative_color = col2.color_picker('Negative color', NEGATIVE_COLOR)
     settings = {
@@ -123,7 +123,7 @@ def body(predict, settings):
                     negative_color=settings['negative_color'],
                 )
                 st.write(highlighted, unsafe_allow_html=True)
-        exp = st.beta_expander("Json")
+        exp = st.expander("Json")
         exp.json(result)
 
 
